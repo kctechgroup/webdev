@@ -2,14 +2,42 @@
 # vi: set ft=ruby :
 $install = <<SCRIPT
 # Initialize install log
-rm -f install.log
+rm -f /vagrant/install.log
 # Configure for noninteractive mode (for dpkg)
 export DEBIAN_FRONTEND=noninteractive
 # Prevent accessing stdin when no terminal available in root profile
 sudo sed -i 's/^mesg n/tty -s \\&\\& mesg n/g' /root/.profile
 sudo ex +"%s@DPkg@//DPkg" -cwq /etc/apt/apt.conf.d/70debconf
 sudo dpkg-reconfigure debconf -f noninteractive -p critical
-echo "TODO: Write the install script that makes this actually do what is intended..  Sorry!  :)"
+echo "Installing Node.JS Version 6"
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - >> /vagrant/install.log
+sudo apt-get install -y nodejs >> /vagrant/install.log
+echo "Installing Build Essentials"
+sudo apt-get install -y build-essential >> /vagrant/install.log
+echo "Installing ZSH"
+sudo apt-get install -y zsh >> /vagrant/install.log
+echo "Installing Oh-My-Zsh"
+git clone git://github.com/robbyrussell/oh-my-zsh.git /home/ubuntu/.oh-my-zsh >> /vagrant/install.log 2>&1
+cp /home/ubuntu/.oh-my-zsh/templates/zshrc.zsh-template /home/ubuntu/.zshrc
+# Set Theme
+sed -i 's/^ZSH_THEME.*/ZSH_THEME="rkj-repos"/' /home/ubuntu/.zshrc
+echo "Changing default shell to ZSH"
+sudo chsh -s /usr/bin/zsh ubuntu
+echo "Installing Hexo"
+sudo npm install hexo-cli -g --silent >> /vagrant/install.log
+if [ ! -d "/vagrant/kctechgroup.github.io" ]; then
+  echo "Cloning kctechgroup.github.io"
+  git clone https://github.com/kctechgroup/kctechgroup.github.io /vagrant/kctechgroup.github.io >> /vagrant/install.log 2>&1
+else
+  echo "Skipping clone due to preexisting folder"
+fi
+echo "Setting default directory"
+echo "cd /vagrant/kctechgroup.github.io" >> /home/ubuntu/.zshrc
+echo "Installing Hexo Dependencies"
+cd /vagrant/kctechgroup.github.io
+npm install --silent >> /vagrant/install.log
+cd blog
+npm install --silent >> /vagrant/install.log
 SCRIPT
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
@@ -78,11 +106,11 @@ Vagrant.configure("2") do |config|
     vb.memory = "1024"
   end
 
-  config.vm.provider "parallels" do |prl, override|
-    override.vm.box = "parallels/ubuntu-16.04"
-    prl.linked_clone = true
-    prl.memory = 1024
-  end
+  # config.vm.provider "parallels" do |prl, override|
+  #   override.vm.box = "parallels/ubuntu-16.04"
+  #   prl.linked_clone = true
+  #   prl.memory = 1024
+  # end
 
   # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
   # such as FTP and Heroku are also available. See the documentation at
