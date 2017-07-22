@@ -32,7 +32,7 @@ else
   echo "Skipping clone due to preexisting folder"
 fi
 echo "Setting default directory"
-echo "cd /vagrant/kctechgroup.github.io" >> /home/ubuntu/.zshrc
+echo "cd /vagrant/kctechgroup.github.io/blog" >> /home/ubuntu/.zshrc
 echo "Installing Hexo Dependencies"
 cd /vagrant/kctechgroup.github.io
 npm install --silent >> /vagrant/install.log
