@@ -6,7 +6,7 @@ This repository contains a Vagrantfile that can be used to setup your own develo
 In order to get started, make sure you've installed some prerequisites on your computer:
 
 * [Oracle VirtualBox](https://virtualbox.org) - Downloads page [here](https://www.virtualbox.org/wiki/Downloads)
-* [Vagrant](https://vagrantup.com) - Downloads page [here](https://www.vagrantup.com/downloads.html)
+* [Vagrant](https://vagrantup.com) - Downloads page [here](https://www.vagrantup.com/downloads.html).  For Windows 7, avoid 1.9.7, go for 1.9.6 from the previous downloads page [here](https://releases.hashicorp.com/vagrant/1.9.6/).
 
 ## Getting Started
 
