@@ -34,10 +34,9 @@ fi
 echo "Setting default directory"
 echo "cd /vagrant/kctechgroup.github.io/blog" >> /home/ubuntu/.zshrc
 echo "Installing Hexo Dependencies"
-cd /vagrant/kctechgroup.github.io
-npm install --silent >> /vagrant/install.log
-cd blog
-npm install --silent >> /vagrant/install.log
+# TODO - Add hooks to utilize the hexo dependencies defined in the base repo instead of installing the global hexo (above)
+cd /vagrant/kctechgroup.github.io/blog
+npm install --no-bin-links --silent >> /vagrant/install.log
 SCRIPT
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
